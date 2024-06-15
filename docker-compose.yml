@@ -55,8 +55,8 @@ services:
   #     - '127.0.0.1:9200:9200'
 
   web:
-    build: .
-    image: ghcr.io/mastodon/mastodon:v4.2.9
+  #  build: .
+    image: mastodon:20240615
     restart: always
     env_file: .env.production
     command: bash -c "rm -f /mastodon/tmp/pids/server.pid; bundle exec rails s -p 3000"
@@ -73,11 +73,11 @@ services:
       - redis
       # - es
     volumes:
-      - ./public/system:/mastodon/public/system
+      - /var/www/mastodon/public/system:/mastodon/public/system
 
   streaming:
-    build: .
-    image: ghcr.io/mastodon/mastodon:v4.2.9
+  #  build: .
+    image: mastodon:20240615
     restart: always
     env_file: .env.production
     command: node ./streaming
@@ -94,8 +94,8 @@ services:
       - redis
 
   sidekiq:
-    build: .
-    image: ghcr.io/mastodon/mastodon:v4.2.9
+  #  build: .
+    image: mastodon:20240615
     restart: always
     env_file: .env.production
     command: bundle exec sidekiq
@@ -106,7 +106,7 @@ services:
       - external_network
       - internal_network
     volumes:
-      - ./public/system:/mastodon/public/system
+      - /var/www/mastodon/public/system:/mastodon/public/system
     healthcheck:
       test: ['CMD-SHELL', "ps aux | grep '[s]idekiq\ 6' || false"]
 
